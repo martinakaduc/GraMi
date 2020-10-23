@@ -135,5 +135,5 @@ fi
 
 #Running Grami
 echo "Starting GraMi ...";
-java -cp ./$prog/bin Dijkstra.main freq=$frequency filename=$file datasetFolder=./Datasets/ distance=$distance type=$type mlabels=false maxLabelAppearance=$labels approximate=$alpha approxConst=$beta
+java -Xmx16G -d64 -cp ./$prog/bin Dijkstra.main freq=$frequency filename=$file datasetFolder=./Datasets/ distance=$distance type=$type mlabels=false maxLabelAppearance=$labels approximate=$alpha approxConst=$beta
 echo "GraMi Finished."
