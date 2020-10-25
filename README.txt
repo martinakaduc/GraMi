@@ -58,3 +58,5 @@ frequency = 160 and maximum distance bound (edge weight) = 200:
 	./grami -f citeseer.lg -s 160 -t 1 -p 1 -d 200
 
 ./grami -f citeseer_6_6.lg -s 20 -t 0 -p 0 | grep ... > out_cli.txt
+export JAVA_HOME=~/jdk1.8.0_271
+export PATH="$JAVA_HOME/bin:$PATH"

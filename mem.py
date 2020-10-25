@@ -1,7 +1,8 @@
 #! /usr/bin/python3
 
 import json, psutil, datetime, sys, time
-with open("out_mem.txt", 'w') as f:
+
+with open(sys.argv[2], 'w') as f:
     while True:
         try:
             res = (datetime.datetime.now().isoformat(),
