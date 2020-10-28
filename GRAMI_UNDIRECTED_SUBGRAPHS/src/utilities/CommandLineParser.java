@@ -35,6 +35,9 @@ public class CommandLineParser {
 			if (key.compareTo("filename") == 0)
 				Settings.fileName = value;
 			// assign the datasets folder
+			if (key.compareTo("stoptime") == 0)
+				Settings.stopTime = Double.parseDouble(value);
+
 			if (key.compareTo("datasetFolder") == 0)
 				Settings.datasetsFolder = value;
 			// approximate setting

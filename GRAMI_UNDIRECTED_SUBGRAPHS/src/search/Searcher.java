@@ -46,7 +46,7 @@ import dataStructures.IntFrequency;
 import dataStructures.gEdgeComparator;
 import dataStructures.myNode;
 
-public class Searcher<NodeType, EdgeType> 
+public class Searcher<NodeType, EdgeType>
 {
 
 	private Graph singleGraph;
@@ -59,8 +59,8 @@ public class Searcher<NodeType, EdgeType>
 	public ArrayList<HPListGraph<NodeType, EdgeType>> result;
 	public static Hashtable<Integer, Vector<Integer>> neighborLabels;
 	private String path;
-	
-	
+
+
 	public Searcher(String path, int freqThreshold,int shortestDistance) throws Exception
 	{
 		this.freqThreshold= new IntFrequency(freqThreshold);
@@ -70,29 +70,29 @@ public class Searcher<NodeType, EdgeType>
 		this.path = path;
 		sortedFrequentLabels=singleGraph.getSortedFreqLabels();
 		freqEdgeLabels = singleGraph.getFreqEdgeLabels();
-		singleGraph.printFreqNodes();	
+		singleGraph.printFreqNodes();
         singleGraph.setShortestPaths_1hop();
 	}
-	
+
 	public void initialize()
 	{
 		initials= new TreeMap<GSpanEdge<NodeType, EdgeType>, DFSCode<NodeType, EdgeType>>(new gEdgeComparator<NodeType, EdgeType>());
 		HashMap<Integer, HashMap<Integer,myNode>> freqNodesByLabel=  singleGraph.getFreqNodesByLabel();
 		HashSet<Integer> contains= new HashSet<Integer>();
-		for (Iterator<  java.util.Map.Entry< Integer, HashMap<Integer,myNode> > >  it= freqNodesByLabel.entrySet().iterator(); it.hasNext();) 
+		for (Iterator<  java.util.Map.Entry< Integer, HashMap<Integer,myNode> > >  it= freqNodesByLabel.entrySet().iterator(); it.hasNext();)
 		{
-			
+
 			java.util.Map.Entry< Integer, HashMap<Integer,myNode> > ar =  it.next();
 			int firstLabel=ar.getKey();
 			contains.clear();
 			HashMap<Integer,myNode> tmp = ar.getValue();
-			for (Iterator<myNode> iterator = tmp.values().iterator(); iterator.hasNext();) 
+			for (Iterator<myNode> iterator = tmp.values().iterator(); iterator.hasNext();)
 			{
 				myNode node =  iterator.next();
 				int firstNodeID = node.getID();
 				HashMap<Integer, ArrayList<MyPair<Integer, Double>>> neighbours=node.getReachableWithNodes();
 				if(neighbours!=null)
-				for (Iterator<Integer>  iter= neighbours.keySet().iterator(); iter.hasNext();) 
+				for (Iterator<Integer>  iter= neighbours.keySet().iterator(); iter.hasNext();)
 				{
 					int secondLabel = iter.next();
 					int labelA=sortedFrequentLabels.indexOf(firstLabel);
@@ -104,29 +104,29 @@ public class Searcher<NodeType, EdgeType>
 						double edgeLabel = mp.getB();
 						if(!freqEdgeLabels.contains(edgeLabel))
 							continue;
-						
+
 						int secondNodeID = mp.getA();
-						
+
 						final GSpanEdge<NodeType, EdgeType> gedge = new GSpanEdge <NodeType, EdgeType>().set(0, 1, labelA, (int)edgeLabel, labelB, 0, firstLabel, secondLabel);
-						
+
 						if(!initials.containsKey(gedge))
 						{
 							final ArrayList<GSpanEdge<NodeType, EdgeType>> parents = new ArrayList<GSpanEdge<NodeType, EdgeType>>(
 									2);
 							parents.add(gedge);
 							parents.add(gedge);
-							
+
 							HPListGraph<NodeType, EdgeType> lg = new HPListGraph<NodeType, EdgeType>();
 							gedge.addTo(lg);
 							DFSCode<NodeType, EdgeType> code = new DFSCode<NodeType,EdgeType>(sortedFrequentLabels, freqEdgeLabels,singleGraph,null).set(lg, gedge, gedge, parents);
-							
+
 							initials.put(gedge, code);
 						}
 					}
 				}
 			}
 		}
-		
+
 		for (final Iterator<Map.Entry<GSpanEdge<NodeType, EdgeType>, DFSCode<NodeType, EdgeType>>> eit = initials
 				.entrySet().iterator(); eit.hasNext();)
 		{
@@ -138,14 +138,14 @@ public class Searcher<NodeType, EdgeType>
 			else
 				;
 		}
-				
+
 		neighborLabels = new Hashtable();
-		
+
 		for (final Iterator<Map.Entry<GSpanEdge<NodeType, EdgeType>, DFSCode<NodeType, EdgeType>>> eit = initials
-				.entrySet().iterator(); eit.hasNext();) 
+				.entrySet().iterator(); eit.hasNext();)
 		{
 			final DFSCode<NodeType, EdgeType> code = eit.next().getValue();
-			
+
 			//add possible neighbor labels for each label
 			int labelA;
 			int labelB;
@@ -159,7 +159,7 @@ public class Searcher<NodeType, EdgeType>
 				neighborLabels.put(labelA, temp);
 			}
 			temp.addElement(labelB);
-			
+
 			//now the reverse
 			temp = neighborLabels.get(labelB);
 			if(temp==null)
@@ -170,31 +170,31 @@ public class Searcher<NodeType, EdgeType>
 			temp.addElement(labelA);
 		}
 	}
-	
-	public void search()
+
+	public void search(StopWatch watch)
 	{
 		Algorithm<NodeType, EdgeType> algo = new Algorithm<NodeType, EdgeType>();
 		algo.setInitials(initials);
 		RecursiveStrategy<NodeType, EdgeType> rs = new RecursiveStrategy<NodeType, EdgeType>();
-		result= (ArrayList<HPListGraph<NodeType, EdgeType>>)rs.search(algo,this.freqThreshold.intValue());
+		result = (ArrayList<HPListGraph<NodeType, EdgeType>>)rs.search(algo,this.freqThreshold.intValue(), watch);
 	}
-	
+
 	private int getNumOfDistinctLabels(HPListGraph<NodeType, EdgeType> list)
     {
         HashSet<Integer> difflabels= new HashSet<Integer>();
-        for (int i = 0; i < list.getNodeCount(); i++) 
+        for (int i = 0; i < list.getNodeCount(); i++)
         {
             int label= (Integer)list.getNodeLabel(i);
             if(!difflabels.contains(label))
                 difflabels.add(label);
         }
-        
+
         return difflabels.size();
     }
-	
+
 	public Graph getSingleGraph()
 	{
 		return singleGraph;
 	}
-	
+
 }

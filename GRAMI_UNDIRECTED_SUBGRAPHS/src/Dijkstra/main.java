@@ -59,33 +59,33 @@ import decomposer.Decomposer;
 
 
 public class main {
-	
+
 	static int APPROX=0;
 	static int EXACT=1;
-	
+
 	static int FSM=0;
-	
-	public static void main(String[] args) 
+
+	public static void main(String[] args)
 	{
 		int maxNumOfDistinctNodes=1;
-				
+
 		//default frequency
 		int freq=1000;
-		
+
 		//parse the command line arguments
 		CommandLineParser.parse(args);
-		
+
 		if(utilities.Settings.frequency>-1)
 			freq = utilities.Settings.frequency;
-		
+
 		Searcher<String, String> sr=null;
-		
-		StopWatch watch = new StopWatch();	
-		
+
+		StopWatch watch = new StopWatch();
+
 		try
 		{
 			watch.start();
-			
+
 			if(Settings.fileName==null)
 			{
 				System.out.println("You have to specify a dataset filename");
@@ -95,13 +95,13 @@ public class main {
 			{
 				sr = new Searcher<String, String>(Settings.datasetsFolder+Settings.fileName, freq, 1);
 			}
-		
+
 			//start mining
 			sr.initialize();
-			sr.search();
-			
+			sr.search(watch);
+
 			watch.stop();
-		
+
 			//write output file for the following things:
 			//1- time
 			//2- number of resulted patterns
@@ -110,16 +110,16 @@ public class main {
 			try
 			{
 				String fName = "Output.txt";
-			
+
 				fw = new FileWriter(fName);
 				fw.write(watch.getElapsedTime()/1000.0+"\n");
 				fw.write(sr.result.size()+"\n");
-			
+
 				//write the frequent subgraphs
-				for (int i = 0; i < sr.result.size(); i++) 
-				{		
+				for (int i = 0; i < sr.result.size(); i++)
+				{
 					String out=DFScodeSerializer.serialize(sr.result.get(i));
-				
+
 					fw.write(i+":\n");
 					fw.write(out);
 				}
@@ -129,7 +129,7 @@ public class main {
 			{
 				e.printStackTrace();
 			}
-		
+
 		}
 		catch (Exception e)
 		{
