@@ -4,7 +4,7 @@ import json, psutil, datetime, sys, time
 import argparse
 
 if __name__ == "__main__":
-    proc = subprocess.Popen(str("./grami "+" ".join(sys.argv[3:])).split(), stdout=open(sys.argv[1], "w"))
+    proc = subprocess.Popen(str("sh grami "+" ".join(sys.argv[3:])).split(), stdout=open(sys.argv[1], "w"))
 
     print("PID:", proc.pid)
     with open(sys.argv[2], 'w') as f:
