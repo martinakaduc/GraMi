@@ -58,7 +58,14 @@ frequency = 160 and maximum distance bound (edge weight) = 200:
 	./grami -f citeseer.lg -s 160 -t 1 -p 1 -d 200
 
 
-./grami -f mico_37_37_1000_final.lg -s 1000 -t 0 -p 0 -st 86400 | grep ... > out_cli.txt
+## NEW COMMAND
+python run.py out_cli.txt out_mem.txt -f dataset -s support -t 0 -p 0 -st stop_time 
+
+
+
+##OLD COMMAND
+./grami -f mico_37_37_1000_final.lg -s 1000 -t 0 -p 0 -st 7200 | grep ... > out_cli.txt
+./grami -f email_25_25_injected.lg -s 260 -t 0 -p 0 -st 20000 | grep ... > out_cli.txt
 ps -a
 python3 mem.py 0 out_mem.txt
 export JAVA_HOME=~/jdk1.8.0_271
