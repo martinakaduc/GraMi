@@ -4,7 +4,7 @@ import json, psutil, datetime, sys, time
 import argparse
 
 if __name__ == "__main__":
-    proc = subprocess.Popen(str("java -Xmx16G -cp ./GRAMI_UNDIRECTED_SUBGRAPHS/bin Dijkstra.main freq=%d filename=%s stoptime=%d datasetFolder=./Datasets/ distance=1 type=0 mlabels=false maxLabelAppearance=-1 approximate=1 approxConst=0" % (int(sys.argv[4]), sys.argv[3], int(sys.argv[5]))),
+    proc = subprocess.Popen(str("java -Xmx16G -cp ./GRAMI_UNDIRECTED_SUBGRAPHS/bin Dijkstra.main freq=%d filename=%s stoptime=%d datasetFolder=./Datasets/ distance=1 type=0 mlabels=false maxLabelAppearance=-1 approximate=1 approxConst=0" % (int(sys.argv[4]), sys.argv[3], int(sys.argv[5]))).split(),
                             stdout=open(sys.argv[1], "w"))
 
     print("PID:", proc.pid)
