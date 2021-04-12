@@ -24,7 +24,7 @@ with open(output, mode='r') as f:
     print("Frequent: %s" % out[1])
 
     start_idx = [i for i in range(len(out)) if ':' in out[i]]
-    count_size = [0]
+    count_size = []
     for idx in start_idx:
         count = 0
         while out[idx + count + 1][0] == 'v':
@@ -32,8 +32,12 @@ with open(output, mode='r') as f:
 
         count_size.append(count)
 
-    max_pattern = max(count_size)
-    max_frequent = count_size.count(max_pattern)
+    if count_size:
+        max_pattern = max(count_size)
+        max_frequent = count_size.count(max_pattern)
+    else:
+        max_pattern = 0
+        max_frequent = 0
 
     print("Max frequent: %d" % max_frequent)
     print("Max pattern: %d" % max_pattern)
