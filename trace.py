@@ -24,7 +24,7 @@ with open(output, mode='r') as f:
     print("Frequent: %s" % out[1])
 
     start_idx = [i for i in range(len(out)) if ':' in out[i]]
-    count_size = []
+    count_size = [0]
     for idx in start_idx:
         count = 0
         while out[idx + count + 1][0] == 'v':
