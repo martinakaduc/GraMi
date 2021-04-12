@@ -59,7 +59,7 @@ frequency = 160 and maximum distance bound (edge weight) = 200:
 
 
 ## NEW COMMAND
-python run.py out_cli.txt out_mem.txt -f dataset -s support -t 0 -p 0 -st stop_time 
+python run.py out_cli.txt out_mem.txt dataset support stop_time 
 
 
 
